@@ -1,6 +1,10 @@
 name: aicmd
 base: core24
 version: '1.0'
+title: aicmd
+license: GPL-3.0
+source-code: https://github.com/mateusrodrigues/aicmd
+issues: https://github.com/mateusrodrigues/aicmd/issues
 summary: Describe a task in plain English, get a ready-to-run bash command
 description: |
   aicmd translates natural-language task descriptions into bash one-liners
