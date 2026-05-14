@@ -1,0 +1,33 @@
+#!/usr/bin/bash
+
+set_setting()
+{
+    local key="$1"
+    local value="$2"
+    local appsettings="$SNAP_COMMON/appsettings.json"
+    if [ -f "$appsettings" ]; then
+        jq --arg value "$value" ".${key} = \$value" "$appsettings" > "$appsettings.tmp" \
+            && mv "$appsettings.tmp" "$appsettings"
+    else
+        echo "Error: appsettings.json not found at $appsettings"
+        exit 1
+    fi
+}
+
+set_endpoint() { set_setting "ENDPOINT" "$1"; }
+set_model()    { set_setting "MODEL"    "$1"; }
+set_api_key()  { set_setting "API_KEY"  "$1"; }
+
+endpoint=$(snapctl get endpoint)
+model=$(snapctl get model)
+api_key=$(snapctl get api-key)
+
+if [ -n "$endpoint" ]; then
+    set_endpoint "$endpoint"
+fi
+if [ -n "$model" ]; then
+    set_model "$model"
+fi
+if [ -n "$api_key" ]; then
+    set_api_key "$api_key"
+fi

@@ -1,0 +1,4 @@
+#!/usr/bin/bash
+if [ ! -f "$SNAP_COMMON/appsettings.json" ]; then
+    install -D "$SNAP/appsettings.json" "$SNAP_COMMON/appsettings.json"
+fi

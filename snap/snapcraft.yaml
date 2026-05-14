@@ -1,0 +1,57 @@
+name: aicmd
+base: core24
+version: '1.0'
+summary: Describe a task in plain English, get a ready-to-run bash command
+description: |
+  aicmd translates natural-language task descriptions into bash one-liners
+  using an AI model of your choice.
+
+  Press the configured key binding (default: Ctrl+G) at your shell prompt,
+  describe what you want to do, and the generated command lands directly in
+  your readline buffer — ready to review, edit, and run with Enter.
+
+  Supports any OpenAI-compatible endpoint (OpenAI, Azure OpenAI, Ollama,
+  GitHub Models, etc.).
+
+  **Getting Started**
+
+  1. Install the snap: `sudo snap install aicmd`
+  2. Configure your endpoint, API key, and model:
+    `snap set aicmd endpoint=<your_endpoint> api-key=<your_api_key> model=<your_model>`
+
+  **Shell Integration**
+
+  Shell integration scripts for bash and zsh are included under
+  /snap/aicmd/current/Shell/. Source the one matching your shell to enable
+  the key binding (Ctrl+G):
+
+     # bash — add to ~/.bashrc
+     source /snap/aicmd/current/Shell/aicmd.bash
+
+     # zsh — add to ~/.zshrc
+     source /snap/aicmd/current/Shell/aicmd.zsh
+
+grade: stable
+confinement: strict
+
+parts:
+  aicmd:
+    plugin: nil
+    source: .
+    build-packages:
+      - dotnet-sdk-10.0
+    stage-packages:
+      - jq
+      - libicu74
+    override-build: |
+      dotnet publish src/Aicmd.Console/Aicmd.Console.csproj \
+        --configuration Release \
+        --runtime linux-x64 \
+        --self-contained true \
+        --output "$SNAPCRAFT_PART_INSTALL"
+
+apps:
+  aicmd:
+    command: Aicmd.Console
+    plugs:
+      - network
