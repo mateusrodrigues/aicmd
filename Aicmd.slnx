@@ -1,0 +1,5 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Aicmd.Console/Aicmd.Console.csproj" />
+  </Folder>
+</Solution>
