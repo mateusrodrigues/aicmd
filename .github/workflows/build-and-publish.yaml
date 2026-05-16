@@ -1,0 +1,29 @@
+name: Build and Publish Snap
+
+on:
+  push:
+    branches:
+      - main
+  release:
+    types:
+      - published
+
+jobs:
+  build-and-publish:
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        runner: [ubuntu-24.04, ubuntu-24.04-arm]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Pack snap with Snapcraft
+        id: pack
+        uses: canonical/craft-actions/snapcraft/pack@main
+
+      - name: Publish snap to the Snap Store
+        env:
+          SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
+        run: |
+          snapcraft upload --release=stable ${{ steps.pack.outputs.snap }}
