@@ -16,19 +16,24 @@ var endpoint = config["ENDPOINT"] ?? throw new InvalidOperationException("Endpoi
 var apiKey = config["API_KEY"] ?? throw new InvalidOperationException("The API Key must be set.");
 var model = config["MODEL"] ?? throw new InvalidOperationException("The model must be set.");
 
+var historyPath = History.GetPath();
+var history = History.Load(historyPath);
+
 // Write the prompt to stderr so stdout stays clean for the generated command.
 await Console.Error.WriteAsync("> ");
 
 // Open /dev/tty directly so user input works even when stdout is being captured
 // by the shell wrapper.
 string description;
-using (var tty = new StreamReader(new FileStream("/dev/tty", FileMode.Open, FileAccess.Read)))
+using (var tty = new FileStream("/dev/tty", FileMode.Open, FileAccess.Read))
 {
-    description = (await tty.ReadLineAsync())?.Trim() ?? string.Empty;
+    description = TerminalInput.ReadLine(tty, history).Trim();
 }
 
 if (string.IsNullOrWhiteSpace(description))
     return;
+
+History.Save(historyPath, history, description);
 
 var clientOptions = new OpenAIClientOptions { Endpoint = new Uri(endpoint) };
 var chatClient = new OpenAIClient(new ApiKeyCredential(apiKey), clientOptions)
