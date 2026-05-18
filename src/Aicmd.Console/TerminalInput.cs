@@ -26,7 +26,7 @@ static class TerminalInput
             {
                 int b = ttyStream.ReadByte();
 
-                if (b == -1 || b == '\n' || b == 'ReadLine\r')
+                if (b == -1 || b == '\n' || b == '\r')
                 {
                     Console.Error.WriteLine();
                     break;
