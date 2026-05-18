@@ -5,6 +5,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - 'v*'
 
 jobs:
   build-and-publish:
@@ -14,7 +16,9 @@ jobs:
         runner: [ubuntu-24.04, ubuntu-24.04-arm]
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Pack snap with Snapcraft
         id: pack
