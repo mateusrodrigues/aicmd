@@ -23,6 +23,11 @@
     <PackageReference Include="Spectre.Console" Version="0.55.2" />
   </ItemGroup>
 
+  <!-- MinVer configuration -->
+  <PropertyGroup>
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+  </PropertyGroup>
+
   <ItemGroup>
     <None Update="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

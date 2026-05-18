@@ -1,6 +1,6 @@
 name: aicmd
 base: core24
-version: '1.0'
+adopt-info: aicmd
 title: aicmd
 license: GPL-3.0
 source-code: https://github.com/mateusrodrigues/aicmd
@@ -44,15 +44,19 @@ parts:
     source: .
     build-packages:
       - dotnet-sdk-10.0
+      - git
     stage-packages:
       - jq
       - libicu74
     override-build: |
+      dotnet tool install --global minver-cli
       dotnet publish src/Aicmd.Console/Aicmd.Console.csproj \
         --configuration Release \
         --runtime linux-x64 \
         --self-contained true \
         --output "$SNAPCRAFT_PART_INSTALL"
+      snapctl set version=$(minver --verbosity error)
+
 
 apps:
   aicmd:
