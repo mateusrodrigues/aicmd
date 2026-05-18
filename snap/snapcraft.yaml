@@ -21,7 +21,9 @@ description: |
 
   1. Install the snap: `sudo snap install aicmd`
   2. Configure your endpoint, API key, and model:
-    `snap set aicmd endpoint=<your_endpoint> api-key=<your_api_key> model=<your_model>`
+    `snap set aicmd endpoint=<your_endpoint> model=<your_model> api-key=<your_api_key>`
+
+  **Note:** If your endpoint doesn't require an API key, you can omit the `api-key` setting.
 
   **Shell Integration**
 

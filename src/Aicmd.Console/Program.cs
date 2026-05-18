@@ -13,8 +13,13 @@ var config = new ConfigurationBuilder()
     .Build();
 
 var endpoint = config["ENDPOINT"] ?? throw new InvalidOperationException("Endpoint must be set.");
-var apiKey = config["API_KEY"] ?? throw new InvalidOperationException("The API Key must be set.");
 var model = config["MODEL"] ?? throw new InvalidOperationException("The model must be set.");
+var apiKey = config["API_KEY"];
+
+if (string.IsNullOrWhiteSpace(apiKey))
+{
+    apiKey = "no-key-set";
+}
 
 var historyPath = History.GetPath();
 var history = History.Load(historyPath);
