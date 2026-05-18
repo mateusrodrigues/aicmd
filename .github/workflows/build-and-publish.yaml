@@ -1,12 +1,13 @@
 name: Build and Publish Snap
 
 on:
-  push:
-    branches:
-      - main
-  release:
-    types:
-      - published
+  workflow_dispatch:
+  # push:
+  #   branches:
+  #     - main
+  # release:
+  #   types:
+  #     - published
 
 jobs:
   build-and-publish:
