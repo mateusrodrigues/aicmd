@@ -2,12 +2,9 @@ name: Build and Publish Snap
 
 on:
   workflow_dispatch:
-  # push:
-  #   branches:
-  #     - main
-  # release:
-  #   types:
-  #     - published
+  push:
+    branches:
+      - main
 
 jobs:
   build-and-publish:
@@ -27,4 +24,4 @@ jobs:
         env:
           SNAPCRAFT_STORE_CREDENTIALS: ${{ secrets.SNAPCRAFT_STORE_CREDENTIALS }}
         run: |
-          snapcraft upload --release=stable ${{ steps.pack.outputs.snap }}
+          snapcraft upload --release=edge ${{ steps.pack.outputs.snap }}
