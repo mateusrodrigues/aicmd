@@ -70,7 +70,7 @@ parts:
         --output "$SNAPCRAFT_PART_INSTALL"
 
       # Set the snap version to the output of minver, which calculates the version based on git tags
-      version=$(${HOME}/.dotnet/tools/minver src/Aicmd.Console --tag-prefix v --verbosity error)
+      version=$(${HOME}/.dotnet/tools/minver src/Aicmd.Console/ --tag-prefix v)
       craftctl set version=$version
 
 
