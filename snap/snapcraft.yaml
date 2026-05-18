@@ -50,12 +50,24 @@ parts:
       - libicu74
     override-build: |
       dotnet tool install --global minver-cli
+      if [ "$CRAFT_ARCH_BUILD_FOR" = "amd64" ]; then
+        rid=linux-x64
+      elif [ "$CRAFT_ARCH_BUILD_FOR" = "arm64" ]; then
+        rid=linux-arm64
+      elif [ "$CRAFT_ARCH_BUILD_FOR" = "ppc64el" ]; then
+        rid=linux-ppc64le
+      elif [ "$CRAFT_ARCH_BUILD_FOR" = "s390x" ]; then
+        rid=linux-s390x
+      else
+        echo "Unsupported architecture: $CRAFT_ARCH_BUILD_FOR"
+        exit 1
+      fi
       dotnet publish src/Aicmd.Console/Aicmd.Console.csproj \
         --configuration Release \
-        --runtime linux-x64 \
+        --runtime $rid \
         --self-contained true \
         --output "$SNAPCRAFT_PART_INSTALL"
-      snapctl set version=$(minver --verbosity error)
+      craftctl set version=$(${HOME}/.dotnet/tools/minver --tag-prefix v --verbosity error)
 
 
 apps:
